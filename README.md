@@ -1,6 +1,76 @@
 # verge-js
 自用clash-verge配置覆写脚本
 ```javascript
+    // DNS配置
+const dnsConfig = {
+  "enable": true,
+  "listen": "0.0.0.0:1053",
+  "ipv6": true,
+  "use-system-hosts": true,
+  "prefer-h3": false,
+  //"respect-rules": true,
+  "enhanced-mode": "fake-ip",
+  "fake-ip-range": "198.18.0.1/16",
+  "fake-ip-filter": [
+    // 本地主机/设备
+    "+.lan",
+    "+.local",
+    // Windows网络出现小地球图标
+    "dns.msftncsi.com",
+    "+.msftconnecttest.com",
+    "+.msftncsi.com",
+    // QQ快速登录检测失败
+    "localhost.ptlogin2.qq.com",
+    "localhost.sec.qq.com",
+    // 微信快速登录检测失败
+    "localhost.work.weixin.qq.com",
+    "stun.+.+.+",
+    "stun.+.+",
+    "miwifi.com",
+    "+.music.163.com",
+    "*.126.net",
+    "api-jooxtt.sanook.com",
+    "streamoc.music.tc.qq.com",
+    "mobileoc.music.tc.qq.com",
+    "isure.stream.qqmusic.qq.com",
+    "dl.stream.qqmusic.qq.com",
+    "aqqmusic.tc.qq.com",
+    "amobile.music.tc.qq.com",
+    "+.xiaomi.com",
+    "+.music.migu.cn",
+    "music.migu.cn",
+    "netis.cc",
+    "+.ntp.org.cn",
+    "+.openwrt.pool.ntp.org",
+    "+.+.+.srv.nintendo.net",
+    "+.+.stun.playstation.net",
+    "speedtest.cros.wr.pvp.net",
+    "+.xboxlive.com",
+  ],
+  "default-nameserver": ["223.5.5.5", "119.29.29.29", "1.1.1.1", "8.8.8.8"],
+  "nameserver": [
+    "https://doh.pub/dns-query", 
+    "https://dns.alidns.com/dns-query"
+  ],
+  "proxy-server-nameserver": [
+    "https://doh.pub/dns-query", 
+    "https://1.1.1.1/dns-query"
+  ],
+  "nameserver-policy": {
+    "geosite:private,cn,geolocation-cn": [
+    "https://doh.pub/dns-query", 
+    "https://dns.alidns.com/dns-query"
+  ],
+    "geosite:google,youtube,telegram,gfw,geolocation-!cn": [ 
+    "https://1.1.1.1/dns-query",
+    "https://194.242.2.2/dns-query",
+    "https://public.dns.iij.jp/dns-query",
+    "https://doh.opendns.com/dns-query"
+  ],
+  }
+};
+
+
   // 规则集通用配置
   const ruleProviderCommon = {
     type: "http",
@@ -240,7 +310,41 @@
     if (proxyCount === 0 && proxyProviderCount === 0) {
       throw new Error("配置文件中未找到任何代理");
     }
+
+    
+    config["sniffer"] = { 
+            enable: true,
+            "force-dns-mapping": true,
+            "parse-pure-ip": true,
+            "override-destination": true,
+            sniff: {
+                TLS: {
+                    ports: [443, 8443],
+                },
+                HTTP: {
+                    ports: [80, "8080-8880"],
+                    "override-destination": true,
+                },
+                QUIC: {
+                    ports: [443, 8443]
+                }
+            },
+            "skip-domain": ["Mijia Cloud", "+.oray.com"],
+        },
+    
+    config["unified-delay"] = true; //统一延迟
+
+    config["tcp-concurrent"] = true; //TCP 并发
+
+    config["profile"] = {
+    "store-selected": true,
+    "store-fake-ip": true,
+   };
+   
+
   
+    // 覆盖原配置中DNS配置
+  config["dns"] = dnsConfig;
   
     // 覆盖原配置中的代理组
     config["proxy-groups"] = [
@@ -657,4 +761,3 @@
     // 返回修改后的配置
     return config;
   }
-```javascript
