@@ -22,10 +22,10 @@
 - Steam
 (Steam-CN直连，Steam走代理，即可实现代理社区等网页的同时直连下载游戏)
 
-预览图
+# 预览图
 ![image](https://github.com/user-attachments/assets/a3c97d85-3cef-4014-8bdd-ec6907b0070c)
 ![image](https://github.com/user-attachments/assets/e75fabe5-7f68-4a66-bc16-07b839fb88fc)
-
+# Clash Verge 全局拓展脚本
 ```javascript
     // DNS配置
 const dnsConfig = {
