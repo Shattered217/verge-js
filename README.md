@@ -403,7 +403,7 @@ const dnsConfig = {
         name: "节点选择",
         type: "select",
         proxies: ["延迟选优","手动选择","手动选择备用","自建节点", "故障转移", "负载均衡(散列)", "负载均衡(轮询)"],
-        icon: "https://fastly.jsdelivr.net/gh/clash-verge-rev/clash-verge-rev.github.io@main/docs/assets/icons/adjust.svg",
+        icon: "https://fastly.jsdelivr.net/gh/Koolson/Qure@master/IconSet/Color/Airport.png",
       },
       {
         ...groupBaseOption,
@@ -440,7 +440,7 @@ const dnsConfig = {
           "延迟选优",
           "故障转移",       
         ],
-        icon: "https://www.clashverge.dev/assets/icons/github.svg",
+        icon: "https://fastly.jsdelivr.net/gh/Koolson/Qure@master/IconSet/Color/Server.png",
       },
       {
         ...groupBaseOption,
