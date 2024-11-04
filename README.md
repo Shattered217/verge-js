@@ -21,7 +21,16 @@
 - Steam-CN
 - Steam
 (Steam-CN直连，Steam走代理，即可实现代理社区等网页的同时直连下载游戏)
-
+# DNS配置
+- IPv6 ✅
+- 使用系统hosts文件 ✅
+- h3 ✅
+- DNS代理规则 ✅
+- 国内外分流 ✅
+# 其它配置
+- 域名嗅探 ✅
+- TCP 并发 ✅
+- 统一延迟 ✅
 # 预览图
 ![image](https://github.com/user-attachments/assets/a3c97d85-3cef-4014-8bdd-ec6907b0070c)
 ![image](https://github.com/user-attachments/assets/77c89597-1c70-45ee-b113-cafafbea353c)
