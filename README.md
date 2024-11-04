@@ -1,5 +1,7 @@
-# verge-js
 自用clash-verge配置覆写脚本
+
+Steam-CN直连，Steam走代理，即可实现代理社区等网页的同时直连下载游戏
+
 ```javascript
     // DNS配置
 const dnsConfig = {
