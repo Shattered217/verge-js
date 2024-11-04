@@ -24,7 +24,7 @@
 
 # 预览图
 ![image](https://github.com/user-attachments/assets/a3c97d85-3cef-4014-8bdd-ec6907b0070c)
-![image](https://github.com/user-attachments/assets/e75fabe5-7f68-4a66-bc16-07b839fb88fc)
+![image](https://github.com/user-attachments/assets/77c89597-1c70-45ee-b113-cafafbea353c)
 # Clash Verge 全局拓展脚本
 ```javascript
     // DNS配置
