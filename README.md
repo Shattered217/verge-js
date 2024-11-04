@@ -97,7 +97,7 @@ const dnsConfig = {
     "https://doh.pub/dns-query", 
     "https://dns.alidns.com/dns-query"
   ],
-    "geosite:google,youtube,telegram,gfw,geolocation-!cn": [ 
+    "geosite:netflix,openai,pornhub,tiktok,youtube,telegram,gfw,geolocation-!cn": [ 
     "https://1.1.1.1/dns-query",
     "https://194.242.2.2/dns-query",
     "https://public.dns.iij.jp/dns-query",
@@ -489,6 +489,8 @@ const dnsConfig = {
           "负载均衡(散列)",
           "负载均衡(轮询)",
         ],
+        "include-all": true,
+        filter: "^(?!(.*尼日)).*(日|JP|韩|KR|台|TW).*",
         icon: "https://fastly.jsdelivr.net/gh/Koolson/Qure@master/IconSet/Color/Pornhub_1.png",
       },
       {
@@ -598,7 +600,6 @@ const dnsConfig = {
           "故障转移",
           "负载均衡(散列)",
           "负载均衡(轮询)",
-          "全局直连",
         ],
         icon: "https://www.bing.com/favicon.ico",
       },
@@ -823,5 +824,7 @@ const dnsConfig = {
     config["rules"] = rules;
   
     // 返回修改后的配置
+    return config;
+  }
     return config;
   }
