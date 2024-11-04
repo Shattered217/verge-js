@@ -1,6 +1,6 @@
 自用clash-verge配置覆写脚本
 
-#代理组
+# 代理组
 - Speedtest
 - Github
 - Adobe(选择REJECT可防止盗版软件联网弹窗)
