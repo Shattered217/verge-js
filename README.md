@@ -22,28 +22,28 @@
 - Steam
 (Steam-CN直连，Steam走代理，即可实现代理社区等网页的同时直连下载游戏)
 # DNS配置
-- IPv6 ✅
-- 使用系统hosts文件 ✅
-- h3 ✅
-- DNS代理规则 ✅
-- 国内外分流 ✅
+- ✅IPv6
+- ✅使用系统hosts文件
+- ✅h3
+- ✅DNS代理规则
+- ✅国内外分流
 # 其它配置
-- 域名嗅探 ✅
-- TCP 并发 ✅
-- 统一延迟 ✅
+- ✅域名嗅探
+- ✅TCP 并发
+- ✅统一延迟
 # 预览图
 ![image](https://github.com/user-attachments/assets/a3c97d85-3cef-4014-8bdd-ec6907b0070c)
 ![image](https://github.com/user-attachments/assets/77c89597-1c70-45ee-b113-cafafbea353c)
 # Clash Verge 全局拓展脚本
 ```javascript
-    // DNS配置
+  // DNS配置
 const dnsConfig = {
   "enable": true,
   "listen": "0.0.0.0:1053",
   "ipv6": true,
   "use-system-hosts": true,
-  "prefer-h3": false,
-  //"respect-rules": true,
+  "prefer-h3": true,
+  "respect-rules": true,
   "enhanced-mode": "fake-ip",
   "fake-ip-range": "198.18.0.1/16",
   "fake-ip-filter": [
@@ -84,6 +84,7 @@ const dnsConfig = {
   ],
   "default-nameserver": ["223.5.5.5", "119.29.29.29", "1.1.1.1", "8.8.8.8"],
   "nameserver": [
+    "https://223.5.5.5/dns-query",
     "https://doh.pub/dns-query", 
     "https://dns.alidns.com/dns-query"
   ],
@@ -114,9 +115,16 @@ const dnsConfig = {
   };
   // 规则集配置
   const ruleProviders = {
+    proxydns: {
+      ...ruleProviderCommon,
+      behavior: "classical",
+      format: "yaml",
+      url: "https://github.com/Shattered217/ownrule-clash/raw/refs/heads/main/dns.yaml",
+      path: "./rulesets/loyalsoldier/proxydns.yaml",
+    },
     netflix: {
       ...ruleProviderCommon,
-      behavior: "domain",
+      behavior: "ipcidr",
       url: "https://github.com/MetaCubeX/meta-rules-dat/raw/refs/heads/meta/geo/geoip/netflix.mrs",
       path: "./rulesets/loyalsoldier/netflix.mrs",
     },
@@ -195,36 +203,42 @@ const dnsConfig = {
     gamedl: {
       ...ruleProviderCommon,
       behavior: "classical",
+      format: "text",
       url: "https://github.com/ACL4SSR/ACL4SSR/raw/master/Clash/Ruleset/GameDownload.list",
       path: "./rulesets/loyalsoldier/gamedl.list",
     },
     ubisoft: {
       ...ruleProviderCommon,
       behavior: "classical",
+      format: "text",
       url: "https://github.com/Shattered217/ownrule-clash/raw/main/ubisoft.list",
       path: "./rulesets/loyalsoldier/ubisoft.list",
     },
     epic: {
       ...ruleProviderCommon,
       behavior: "classical",
+      format: "text",
       url: "https://raw.githubusercontent.com/ACL4SSR/ACL4SSR/master/Clash/Ruleset/Epic.list",
       path: "./rulesets/loyalsoldier/epic.list",
     },
     ea: {
       ...ruleProviderCommon,
       behavior: "classical",
+      format: "text",
       url: "https://github.com/blackmatrix7/ios_rule_script/raw/master/rule/Clash/EA/EA.list",
       path: "./rulesets/loyalsoldier/ea.list",
     },
     steamCN: {
       ...ruleProviderCommon,
       behavior: "classical",
+      format: "text",
       url: "https://github.com/Shattered217/ownrule-clash/raw/main/steam-CN.list",
       path: "./rulesets/loyalsoldier/steamCN.list",
     },
     steam: {
       ...ruleProviderCommon,
       behavior: "classical",
+      format: "text",
       url: "https://raw.githubusercontent.com/ACL4SSR/ACL4SSR/master/Clash/Ruleset/Steam.list",
       path: "./rulesets/loyalsoldier/steam.list",
     },
@@ -242,7 +256,7 @@ const dnsConfig = {
     },
     private: {
       ...ruleProviderCommon,
-      behavior: "domain",
+      behavior: "ipcidr",
       url: "https://github.com/MetaCubeX/meta-rules-dat/raw/refs/heads/meta/geo/geoip/private.mrs",
       path: "./rulesets/loyalsoldier/private.mrs",
     },
@@ -279,6 +293,7 @@ const dnsConfig = {
     applications: {
       ...ruleProviderCommon,
       behavior: "classical",
+      format: "yaml",
       url: "https://fastly.jsdelivr.net/gh/Loyalsoldier/clash-rules@release/applications.txt",
       path: "./rulesets/loyalsoldier/applications.yaml",
     },
@@ -292,6 +307,7 @@ const dnsConfig = {
     "DOMAIN-SUFFIX,github.io,节点选择", // Github Pages
     "DOMAIN,v2rayse.com,节点选择", // V2rayse节点工具
     // Loyalsoldier 规则集
+    "RULE-SET,proxydns,ProxyDNS",
     "RULE-SET,speedtest,Speedtest",
     "RULE-SET,github,Github",
     "RULE-SET,bing,Bing",
@@ -319,7 +335,7 @@ const dnsConfig = {
     "RULE-SET,direct,全局直连",
     "RULE-SET,lancidr,全局直连,no-resolve",
     "RULE-SET,cncidr,全局直连,no-resolve",
-    "RULE-SET,telegramcidr,电报消息,no-resolve",
+    "RULE-SET,telegramcidr,Telegram,no-resolve",
     // 其他规则
     "GEOIP,LAN,全局直连,no-resolve",
     "GEOIP,CN,全局直连,no-resolve",
@@ -368,7 +384,6 @@ const dnsConfig = {
         },
     
     config["unified-delay"] = true; //统一延迟
-
     config["tcp-concurrent"] = true; //TCP 并发
 
     config["profile"] = {
@@ -409,8 +424,23 @@ const dnsConfig = {
         name: "自建节点",
         type: "select",
         "include-all": true,
-        filter: "自建|Craig|hk-vmess|HY|海晏河清|backup|_",
+        filter: "自建|Craig|hk-vmess|HY|backup|_",
         icon: "https://fastly.jsdelivr.net/gh/clash-verge-rev/clash-verge-rev.github.io@main/docs/assets/icons/adjust.svg",
+      },
+      {
+        ...groupBaseOption,
+        name: "ProxyDNS",
+        type: "select",
+        proxies: [
+          "全局直连",            
+          "节点选择",
+          "手动选择",
+          "手动选择备用",
+          "自建节点",
+          "延迟选优",
+          "故障转移",       
+        ],
+        icon: "https://www.clashverge.dev/assets/icons/github.svg",
       },
       {
         ...groupBaseOption,
@@ -419,6 +449,14 @@ const dnsConfig = {
         proxies: ["全局直连",],
         "include-all": true,
         icon: "https://fastly.jsdelivr.net/gh/Koolson/Qure@master/IconSet/Color/Speedtest.png",
+      },
+      {
+        ...groupBaseOption,
+        name: "ChatGPT",
+        type: "select",
+        "include-all": true,
+        filter: "^(?!(.*尼日)).*(美|日|JP|US|Chat|jp|us).*",
+        icon: "https://www.clashverge.dev/assets/icons/chatgpt.svg",
       },
       {
         ...groupBaseOption,
@@ -436,17 +474,6 @@ const dnsConfig = {
           "全局直连",          
         ],
         icon: "https://www.clashverge.dev/assets/icons/github.svg",
-      },
-      {
-        ...groupBaseOption,
-        name: "Adobe",
-        type: "select",
-        proxies: [
-          "全局直连",          
-          "REJECT",
-          "节点选择",
-        ],
-        icon: "https://www.adobe.com/favicon.ico",
       },
       {
         ...groupBaseOption,
@@ -542,7 +569,7 @@ const dnsConfig = {
       },
       {
         ...groupBaseOption,
-        name: "电报消息",
+        name: "Telegram",
         type: "select",
         proxies: [
           "节点选择",
@@ -611,11 +638,14 @@ const dnsConfig = {
       },
       {
         ...groupBaseOption,
-        name: "ChatGPT",
+        name: "Adobe",
         type: "select",
-        "include-all": true,
-        filter: "^(?!(.*尼日)).*(美|日|JP|US|Chat|jp|us).*",
-        icon: "https://www.clashverge.dev/assets/icons/chatgpt.svg",
+        proxies: [
+          "全局直连",          
+          "REJECT",
+          "节点选择",
+        ],
+        icon: "https://www.adobe.com/favicon.ico",
       },
       {
         ...groupBaseOption,
@@ -707,7 +737,6 @@ const dnsConfig = {
         name: "Steam",
         type: "select",
         proxies: [         
-          "全局直连",
           "节点选择",
           "手动选择",
           "手动选择备用",
@@ -716,6 +745,7 @@ const dnsConfig = {
           "故障转移",
           "负载均衡(散列)",
           "负载均衡(轮询)",
+          "全局直连",          
         ],
         icon: "https://www.clashverge.dev/assets/icons/steam.svg",
       },
