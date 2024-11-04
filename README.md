@@ -579,8 +579,7 @@ const dnsConfig = {
         name: "ChatGPT",
         type: "select",
         "include-all": true,
-        filter: "美|日|JP|US|Chat|jp|us",
-        "exclude-fliter": "尼日",
+        filter: "^(?!(.*尼日)).*(美|日|JP|US|Chat|jp|us).*",
         icon: "https://www.clashverge.dev/assets/icons/chatgpt.svg",
       },
       {
