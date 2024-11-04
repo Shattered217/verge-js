@@ -1,6 +1,26 @@
 自用clash-verge配置覆写脚本
 
-Steam-CN直连，Steam走代理，即可实现代理社区等网页的同时直连下载游戏
+#代理组
+- Speedtest
+- Github
+- Adobe(选择REJECT可防止盗版软件联网弹窗)
+- Pornhub(选择符合你xp的地区)
+- bilibili(港澳台或修改ip属地)
+- Tiktok
+- Netflix
+- Spotify(国内听歌可直连)
+- Telegram
+- Bing(防止rewards乱跳)
+- Onedrive
+- 微软服务
+- ChatGPT
+- 游戏下载
+- 育碧
+- Epic
+- EA
+- Steam-CN
+- Steam
+(Steam-CN直连，Steam走代理，即可实现代理社区等网页的同时直连下载游戏)
 
 预览图
 ![image](https://github.com/user-attachments/assets/a3c97d85-3cef-4014-8bdd-ec6907b0070c)
