@@ -32,7 +32,7 @@
 - ✅TCP 并发
 - ✅统一延迟
 # 预览图
-![image](https://github.com/user-attachments/assets/a3c97d85-3cef-4014-8bdd-ec6907b0070c)
+![image](https://github.com/user-attachments/assets/983e3600-fb4c-425e-9069-63f64a23189c)
 ![image](https://github.com/user-attachments/assets/77c89597-1c70-45ee-b113-cafafbea353c)
 # Clash Verge 全局拓展脚本
 ```javascript
