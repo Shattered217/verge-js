@@ -826,5 +826,3 @@ const dnsConfig = {
     // 返回修改后的配置
     return config;
   }
-    return config;
-  }
