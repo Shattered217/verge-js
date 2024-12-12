@@ -93,7 +93,9 @@ const dnsConfig = {
     "https://1.1.1.1/dns-query"
   ],
   "nameserver-policy": {
+    "+.zwu.edu.cn": ["10.70.50.23","10.70.50.25"],//ZWU校园网
     "geosite:private,cn,geolocation-cn": [
+    "https://223.5.5.5/dns-query",
     "https://doh.pub/dns-query", 
     "https://dns.alidns.com/dns-query"
   ],
@@ -122,11 +124,17 @@ const dnsConfig = {
       url: "https://github.com/Shattered217/ownrule-clash/raw/refs/heads/main/dns.yaml",
       path: "./rulesets/loyalsoldier/proxydns.yaml",
     },
-    netflix: {
+    netflix_ip: {
       ...ruleProviderCommon,
       behavior: "ipcidr",
       url: "https://github.com/MetaCubeX/meta-rules-dat/raw/refs/heads/meta/geo/geoip/netflix.mrs",
-      path: "./rulesets/loyalsoldier/netflix.mrs",
+      path: "./rulesets/loyalsoldier/netflix-ip.mrs",
+    },
+    netflix_site: {
+      ...ruleProviderCommon,
+      behavior: "domain",
+      url: "https://github.com/MetaCubeX/meta-rules-dat/raw/refs/heads/meta/geo/geosite/netflix.mrs",
+      path: "./rulesets/loyalsoldier/netflix-site.mrs",
     },
     speedtest: {
       ...ruleProviderCommon,
@@ -319,7 +327,8 @@ const dnsConfig = {
     "RULE-SET,bilibili,Bilibili",
     "RULE-SET,youtube,YouTube",
     "RULE-SET,tiktok,TikTok",
-    "RULE-SET,netflix,Netflix",
+    "RULE-SET,netflix_ip,Netflix",
+    "RULE-SET,netflix_site,Netflix",
     "RULE-SET,spotify,Spotify",
     "RULE-SET,gamedl,游戏下载",
     "RULE-SET,ubisoft,育碧",
@@ -528,12 +537,10 @@ const dnsConfig = {
           "节点选择",
           "手动选择",
           "手动选择备用",
-          "自建节点",
-          "延迟选优",
-          "故障转移",
-          "负载均衡(散列)",
-          "负载均衡(轮询)",
+          "自建节点"
         ],
+        "include-all": true,
+        filter: "港|澳|台|HK|TW|MO",
         icon: "https://fastly.jsdelivr.net/gh/shindgewongxj/WHATSINStash@master/icon/netflix.png",
       },
       {
@@ -582,7 +589,6 @@ const dnsConfig = {
           "故障转移",
           "负载均衡(散列)",
           "负载均衡(轮询)",
-          "全局直连",
         ],
         icon: "https://fastly.jsdelivr.net/gh/clash-verge-rev/clash-verge-rev.github.io@main/docs/assets/icons/telegram.svg",
       },
