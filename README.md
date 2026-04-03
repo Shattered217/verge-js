@@ -52,3 +52,4 @@
 - 打开虚拟网卡模式（点击设置）
 - 打开自动设置全局路由
 - 打开严格路由
+<img width="2291" height="1132" alt="image" src="https://github.com/user-attachments/assets/243a805f-d433-460e-8519-5a127e22a5bc" />
