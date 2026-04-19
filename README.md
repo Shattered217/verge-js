@@ -25,9 +25,9 @@
 
 # DNS配置
 
-- ✅IPv6
+- ✅关闭IPv6
 - ✅使用系统hosts文件
-- ✅h3
+- ✅关闭h3
 - ✅DNS代理规则
 - ✅国内外分流
 
@@ -52,4 +52,4 @@
 - 打开虚拟网卡模式（点击设置）
 - 打开自动设置全局路由
 - 打开严格路由
-<img width="2291" height="1132" alt="image" src="https://github.com/user-attachments/assets/243a805f-d433-460e-8519-5a127e22a5bc" />
+  <img width="2291" height="1132" alt="image" src="https://github.com/user-attachments/assets/243a805f-d433-460e-8519-5a127e22a5bc" />

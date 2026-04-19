@@ -2,9 +2,9 @@
 const dnsConfig = {
   enable: true,
   listen: "0.0.0.0:1053",
-  ipv6: true,
+  ipv6: false,
   "use-system-hosts": true,
-  "prefer-h3": true,
+  "prefer-h3": false,
   "respect-rules": true,
   "enhanced-mode": "fake-ip",
   "fake-ip-range": "198.18.0.1/16",
