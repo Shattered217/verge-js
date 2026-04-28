@@ -51,17 +51,17 @@ const dnsConfig = {
     "https://dns.alidns.com/dns-query",
   ],
   "proxy-server-nameserver": [
-    "https://doh.pub/dns-query",
+    "https://223.5.5.5/dns-query",
     "https://1.1.1.1/dns-query",
   ],
   "nameserver-policy": {
     "+.zwu.edu.cn": ["10.70.50.23", "10.70.50.25"], //ZWU校园网
-    "geosite:private,cn,geolocation-cn": [
+    "geosite:private,google@cn,cn,geolocation-cn": [
       "https://223.5.5.5/dns-query",
       "https://doh.pub/dns-query",
       "https://dns.alidns.com/dns-query",
     ],
-    "geosite:netflix,openai,pornhub,tiktok,youtube,telegram,geolocation-!cn": [
+    "geosite:netflix,openai,pornhub,tiktok,google,telegram,geolocation-!cn": [
       "https://1.1.1.1/dns-query",
       "https://194.242.2.2/dns-query",
       "https://public.dns.iij.jp/dns-query",
@@ -145,11 +145,17 @@ const ruleProviders = {
     url: "https://github.com/MetaCubeX/meta-rules-dat/raw/refs/heads/meta/geo/geosite/pornhub.mrs",
     path: "./rulesets/loyalsoldier/pornhub.mrs",
   },
-  youtube: {
+  "google@cn": {
     ...ruleProviderCommon,
     behavior: "domain",
-    url: "https://github.com/MetaCubeX/meta-rules-dat/raw/refs/heads/meta/geo/geosite/youtube.mrs",
-    path: "./rulesets/loyalsoldier/youtube.mrs",
+    url: "https://github.com/MetaCubeX/meta-rules-dat/raw/refs/heads/meta/geo/geosite/google@cn.mrs",
+    path: "./rulesets/loyalsoldier/google@cn.mrs",
+  },
+  google: {
+    ...ruleProviderCommon,
+    behavior: "domain",
+    url: "https://github.com/MetaCubeX/meta-rules-dat/raw/refs/heads/meta/geo/geosite/google.mrs",
+    path: "./rulesets/loyalsoldier/google.mrs",
   },
   bilibili: {
     ...ruleProviderCommon,
@@ -250,11 +256,6 @@ const rules = [
   // 自定义规则
   "PROCESS-NAME,tailscaled.exe,DIRECT", // Tailscale
   "PROCESS-NAME,tailscale.exe,DIRECT", // Tailscale
-  "DOMAIN-SUFFIX,googleapis.cn,节点选择", // Google服务
-  "DOMAIN-SUFFIX,gstatic.com,节点选择", // Google静态资源
-  "DOMAIN-SUFFIX,xn--ngstr-lra8j.com,节点选择", // Google Play下载服务
-  "DOMAIN-SUFFIX,github.io,节点选择", // Github Pages
-  "DOMAIN,v2rayse.com,节点选择", // V2rayse节点工具
   // Loyalsoldier 规则集
   "RULE-SET,proxydns,ProxyDNS",
   "RULE-SET,speedtest,Speedtest",
@@ -266,7 +267,8 @@ const rules = [
   "RULE-SET,adobe,Adobe",
   "RULE-SET,pornhub,Pornhub",
   "RULE-SET,bilibili,Bilibili",
-  "RULE-SET,youtube,YouTube",
+  "RULE-SET,google@cn,DIRECT",
+  "RULE-SET,google,Google",
   "RULE-SET,tiktok,TikTok",
   "RULE-SET,netflix-ip,Netflix",
   "RULE-SET,netflix-site,Netflix",
@@ -477,7 +479,7 @@ function main(config) {
     },
     {
       ...groupBaseOption,
-      name: "YouTube",
+      name: "Google",
       type: "select",
       proxies: [
         "节点选择",
@@ -489,7 +491,7 @@ function main(config) {
         "负载均衡(散列)",
         "负载均衡(轮询)",
       ],
-      icon: "https://fastly.jsdelivr.net/gh/clash-verge-rev/clash-verge-rev.github.io@main/docs/assets/icons/youtube.svg",
+      icon: "https://fastly.jsdelivr.net/gh/clash-verge-rev/clash-verge-rev.github.io@main/docs/assets/icons/google.svg",
     },
     {
       ...groupBaseOption,
