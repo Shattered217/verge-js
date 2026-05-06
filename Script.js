@@ -45,28 +45,25 @@ const dnsConfig = {
     "+.xboxlive.com",
   ],
   "default-nameserver": ["223.5.5.5", "119.29.29.29", "1.1.1.1", "8.8.8.8"],
-  nameserver: [
-    "https://223.5.5.5/dns-query",
-    "https://doh.pub/dns-query",
-    "https://dns.alidns.com/dns-query",
-  ],
+  nameserver: ["https://1.1.1.1/dns-query", "https://8.8.8.8/dns-query"], //兜底DNS
   "proxy-server-nameserver": [
     "https://223.5.5.5/dns-query",
     "https://1.1.1.1/dns-query",
   ],
   "nameserver-policy": {
     "+.zwu.edu.cn": ["10.70.50.23", "10.70.50.25"], //ZWU校园网
-    "geosite:private,google@cn,cn,geolocation-cn": [
+    "rule-set:cn-site,google@cn": [
       "https://223.5.5.5/dns-query",
       "https://doh.pub/dns-query",
       "https://dns.alidns.com/dns-query",
     ],
-    "geosite:netflix,openai,pornhub,tiktok,google,telegram,geolocation-!cn": [
-      "https://1.1.1.1/dns-query",
-      "https://194.242.2.2/dns-query",
-      "https://public.dns.iij.jp/dns-query",
-      "https://doh.opendns.com/dns-query",
-    ],
+    "rule-set:github,netflix-site,chatgpt,pornhub,tiktok,google,geolocation-!cn":
+      [
+        "https://1.1.1.1/dns-query",
+        "https://194.242.2.2/dns-query",
+        "https://public.dns.iij.jp/dns-query",
+        "https://doh.opendns.com/dns-query",
+      ],
   },
 };
 
@@ -109,7 +106,7 @@ const ruleProviders = {
     url: "https://github.com/MetaCubeX/meta-rules-dat/raw/refs/heads/meta/geo/geosite/adobe.mrs",
     path: "./rulesets/loyalsoldier/adobe.mrs",
   },
-  chatGPT: {
+  chatgpt: {
     ...ruleProviderCommon,
     behavior: "domain",
     url: "https://github.com/MetaCubeX/meta-rules-dat/raw/refs/heads/meta/geo/geosite/openai.mrs",
@@ -217,16 +214,22 @@ const ruleProviders = {
     url: "https://raw.githubusercontent.com/ACL4SSR/ACL4SSR/master/Clash/Ruleset/Steam.list",
     path: "./rulesets/loyalsoldier/steam.list",
   },
-  telegramcidr: {
+  "telegram-site": {
+    ...ruleProviderCommon,
+    behavior: "domain",
+    url: "https://github.com/MetaCubeX/meta-rules-dat/raw/refs/heads/meta/geo/geosite/telegram.mrs",
+    path: "./rulesets/loyalsoldier/telegram-site.mrs",
+  },
+  "telegram-ip": {
     ...ruleProviderCommon,
     behavior: "ipcidr",
     url: "https://github.com/MetaCubeX/meta-rules-dat/raw/refs/heads/meta/geo/geoip/telegram.mrs",
-    path: "./rulesets/loyalsoldier/telegramcidr.mrs",
+    path: "./rulesets/loyalsoldier/telegram-ip.mrs",
   },
   "geolocation-!cn": {
     ...ruleProviderCommon,
-    behavior: "ipcidr",
-    url: "https://github.com/MetaCubeX/meta-rules-dat/raw/refs/heads/meta/geo/geoip/geolocation-!cn.mrs",
+    behavior: "domain",
+    url: "https://github.com/MetaCubeX/meta-rules-dat/raw/refs/heads/meta/geo/geosite/geolocation-!cn.mrs",
     path: "./rulesets/loyalsoldier/geolocation-!cn.mrs",
   },
   "cn-site": {
@@ -251,8 +254,8 @@ const ruleProviders = {
 // 规则
 const rules = [
   // 禁用国外 QUIC
-  "AND,(AND,(DST-PORT,443),(NETWORK,UDP)),(NOT,((GEOSITE,cn))),REJECT",
-  "AND,(AND,(DST-PORT,443),(NETWORK,UDP)),(NOT,((GEOIP,CN))),REJECT",
+  "AND,(AND,(DST-PORT,443),(NETWORK,UDP)),(NOT,((rule-set,cn-site))),REJECT",
+  "AND,(AND,(DST-PORT,443),(NETWORK,UDP)),(NOT,((rule-set,cn-ip))),REJECT",
   // 自定义规则
   "PROCESS-NAME,tailscaled.exe,DIRECT", // Tailscale
   "PROCESS-NAME,tailscale.exe,DIRECT", // Tailscale
@@ -263,15 +266,17 @@ const rules = [
   "RULE-SET,bing,Bing",
   "RULE-SET,onedrive,Onedrive",
   "RULE-SET,microsoft,微软服务",
-  "RULE-SET,chatGPT,ChatGPT",
+  "RULE-SET,chatgpt,ChatGPT",
   "RULE-SET,adobe,Adobe",
   "RULE-SET,pornhub,Pornhub",
   "RULE-SET,bilibili,Bilibili",
   "RULE-SET,google@cn,DIRECT",
   "RULE-SET,google,Google",
   "RULE-SET,tiktok,TikTok",
-  "RULE-SET,netflix-ip,Netflix",
+  "RULE-SET,netflix-ip,Netflix,no-resolve",
   "RULE-SET,netflix-site,Netflix",
+  "RULE-SET,telegram-ip,Telegram,no-resolve",
+  "RULE-SET,telegram-site,Telegram",
   "RULE-SET,spotify,Spotify",
   "RULE-SET,gamedl,游戏下载",
   "RULE-SET,ubisoft,育碧",
@@ -279,11 +284,10 @@ const rules = [
   "RULE-SET,ea,EA",
   "RULE-SET,steam-cn,Steam-CN",
   "RULE-SET,steam,Steam",
+  "RULE-SET,geolocation-!cn,节点选择",
   "RULE-SET,cn-site,全局直连",
   "RULE-SET,cn-ip,全局直连,no-resolve",
   "RULE-SET,lan,全局直连,no-resolve",
-  "RULE-SET,telegramcidr,Telegram,no-resolve",
-  "RULE-SET,geolocation-!cn,节点选择,no-resolve",
   // 其他规则
   "MATCH,漏网之鱼",
 ];
